@@ -3,7 +3,7 @@ import { imageReducer } from "./imageReducer";
 import { ImageContext } from "./imageContext";
 
 let initialState = {
-	image: null,
+	percent: 0,
     existsImage: false,
 	isLoading: false,
     url: ""
@@ -19,17 +19,13 @@ export const ImageProvider = ({ children }) => {
 		dispatch({ type: "setState", payload: imageState });
 	};
 
-	const setLoading = (value) => {
-		dispatch({ type: "setLoading", payload: value});
+	const setPercent = (value) => {
+		dispatch({ type: "setPercent", payload: value});
 	};
-
-	const clearState = () => {
-		dispatch({ type: "clearState"})
-	}
 
 	return (
 		<ImageContext.Provider
-			value={{ state, setState, setLoading, clearState}}
+			value={{ state, setState, setPercent}}
 		>
 			{children}
 		</ImageContext.Provider>

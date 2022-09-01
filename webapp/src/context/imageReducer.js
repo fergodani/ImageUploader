@@ -4,24 +4,15 @@ export const imageReducer = (
 ) => {
 	switch (action.type) {
 		case "setState":
-            state.url = action.payload.url;
-            state.existsImage = true;
+            state = action.payload
+			console.log("state changing to ")
+			console.log(state)
 			return {
 				...state
 			};
-		case "setLoading":
-			console.log("load state changed to " + action.payload)
-			state.isLoading = action.payload;
-			return {
-				...state
-			};
-		case "clearState":
-			state = {
-				image: null,
-    			existsImage: false,
-				isLoading: false,
-    			url: ""
-			}
+		case "setPercent":
+			console.log(action.payload)
+			state.percent = action.payload;
 			return {
 				...state
 			};

@@ -24,7 +24,7 @@ h4{
   border-radius: 20px;
 }
 
-#drag_card, #image{
+.drag_card, #image{
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -95,7 +95,7 @@ footer{
 #url{
   display: flex;
   flex-direction: row;
-  height: 60px;
+  height: 40px;
   border-radius: 20px;
   margin-bottom: 3em;
   width: 90%;
@@ -110,7 +110,8 @@ footer{
 }
 
 #copy{
-  width: 350px;
+  padding: 5px;
+  width: 450px;
   border-radius: 10px;
   margin: 0;
 }

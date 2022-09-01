@@ -5,7 +5,7 @@ export default function Image(props){
     return (
         <div id="url">
             <p id="urltext">{props.url}</p>
-            <button id="copy">Copy Link</button>
+            <button id="copy" onClick={() => {navigator.clipboard.writeText(props.url)}}>Copy Link</button>
         </div>
     );
 }

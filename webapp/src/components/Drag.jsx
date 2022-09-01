@@ -6,12 +6,10 @@ import { ImageContext } from "../context/imageContext";
 import Loader from "./Loader";
 
 export default function Drag() {
-  const { setState } = useContext(ImageContext);
+  const { state,setState, setPercent } = useContext(ImageContext);
   const inputRef = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   const [files, setFiles] = useState([]);
-  const [percentage, setPercentage] = useState(0);
   const app = initializeApp({
     apiKey: "AIzaSyANm69zqjND_acxnlBSi4fEXSDABOiu8aU",
     authDomain: "image-uploader-2b103.firebaseapp.com",
@@ -27,6 +25,11 @@ export default function Drag() {
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
+      let state = {
+        isLoading: true,
+        existsImage: true
+      }
+      setState(state);
       uploadImage();
     }
   });
@@ -37,6 +40,7 @@ export default function Drag() {
 
   async function uploadImage() {
     if (files.length != 0) {
+      console.log(files)
       const storageRef = ref(storage, `/images/${files[0].name}`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
       uploadTask.on(
@@ -45,16 +49,16 @@ export default function Drag() {
           const percent = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
-
-          setPercentage(percent);
+          setPercent(percent);
         },
         (err) => console.log(err),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             let state = {
-              url
+              url,
+              isLoading: false,
+              existsImage:true
             }
-            console.log(state)
             setState(state);
           })
         }
@@ -67,25 +71,19 @@ export default function Drag() {
     inputRef.current.click();
   }
 
-  async function handleChange(event) {
+  function handleChange(event) {
+    let state = {
+      existsImage: false,
+      isLoading: true
+    }
+    setState(state);
     setFiles(event.target.files);
-    setLoading(true);
-    await uploadImage();
-    //var millisecondsToWait = 5000;
-    //sleep(5)
-    setLoading(false);
   }
 
-  function sleep(seconds) 
-{
-  var e = new Date().getTime() + (seconds * 1000);
-  while (new Date().getTime() <= e) {}
-}
-
-
   return (
-    <div id="drag_card">
-
+    <div className="drag_card">
+    { state.isLoading ? <Loader/> :
+    <div className="drag_card">
           <h2>Upload your image</h2>
           <h4>File should be Jpeg, Png...</h4>
           <div id="drag" {...getRootProps({ className: 'dropzone' })}>
@@ -99,7 +97,8 @@ export default function Drag() {
             ref={inputRef}
             onChange={handleChange} />
           <button onClick={handleClick}>Choose a file</button>
-
+    </div>
+    }
     </div>
   );
 }
