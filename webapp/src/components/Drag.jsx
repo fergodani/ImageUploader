@@ -8,6 +8,10 @@ import Loader from "./Loader";
 export default function Drag() {
   const { state,setState, setPercent } = useContext(ImageContext);
   const inputRef = useRef(null);
+  const loadingState = {
+      existsImage: false,
+      isLoading: true
+  }
 
   const [files, setFiles] = useState([]);
   const app = initializeApp({
@@ -25,12 +29,6 @@ export default function Drag() {
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
-      let state = {
-        isLoading: true,
-        existsImage: true
-      }
-      setState(state);
-      uploadImage();
     }
   });
 
@@ -40,7 +38,7 @@ export default function Drag() {
 
   async function uploadImage() {
     if (files.length != 0) {
-      console.log(files)
+      setState(loadingState);
       const storageRef = ref(storage, `/images/${files[0].name}`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
       uploadTask.on(
@@ -72,11 +70,7 @@ export default function Drag() {
   }
 
   function handleChange(event) {
-    let state = {
-      existsImage: false,
-      isLoading: true
-    }
-    setState(state);
+    //setState(loadingState);
     setFiles(event.target.files);
   }
 
