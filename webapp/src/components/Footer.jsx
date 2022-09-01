@@ -4,7 +4,7 @@ export default function Footer(props){
 
     return (
         <div id="footer">
-            <p>Made by Daniel Ferreira Gómez</p>
+            <footer>Daniel Ferreira Gómez 💙</footer>
         </div>
     );
 }

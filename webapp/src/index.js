@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ImageProvider } from './context/imageProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <ImageProvider>
   <React.StrictMode>
     <App />
   </React.StrictMode>
+  </ImageProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
